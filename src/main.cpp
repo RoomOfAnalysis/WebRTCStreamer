@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     if (argc != 3) std::cerr << "required h264 samples directory and opus samples directory as input" << std::endl;
 
     rtc::Configuration config;
-    
+
     std::string stun_server = "stun:stun.l.google.com:19302";
     std::cout << "STUN server is " << stun_server << std::endl;
     config.iceServers.emplace_back(stun_server);
@@ -50,7 +50,6 @@ int main(int argc, char* argv[])
 
     std::cout << "Cleaning up..." << std::endl;
     return 0;
-
 
     return 0;
 }

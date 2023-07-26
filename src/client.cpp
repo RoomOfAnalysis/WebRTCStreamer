@@ -44,17 +44,17 @@ std::shared_ptr<rtc::PeerConnection> const& Client::get_peer_connection() const
 }
 
 std::shared_ptr<ClientTrackData> Client::add_video(std::shared_ptr<rtc::PeerConnection> const& pc,
-    uint8_t const payload_type, uint32_t const ssrc,
-    std::string const cname, std::string const msid,
-    std::function<void(void)> const on_open)
+                                                   uint8_t const payload_type, uint32_t const ssrc,
+                                                   std::string const cname, std::string const msid,
+                                                   std::function<void(void)> const on_open)
 {
     auto video = rtc::Description::Video(cname);
     video.addH264Codec(payload_type);
     video.addSSRC(ssrc, cname, msid, cname);
     auto track = pc->addTrack(video);
     // create RTP configuration
-    auto rtp_config =
-        std::make_shared<rtc::RtpPacketizationConfig>(ssrc, cname, payload_type, rtc::H264RtpPacketizer::defaultClockRate);
+    auto rtp_config = std::make_shared<rtc::RtpPacketizationConfig>(ssrc, cname, payload_type,
+                                                                    rtc::H264RtpPacketizer::defaultClockRate);
     // create packetizer
     auto packetizer = std::make_shared<rtc::H264RtpPacketizer>(rtc::H264RtpPacketizer::Separator::Length, rtp_config);
     // create H264 handler
@@ -73,17 +73,17 @@ std::shared_ptr<ClientTrackData> Client::add_video(std::shared_ptr<rtc::PeerConn
 }
 
 std::shared_ptr<ClientTrackData> Client::add_audio(std::shared_ptr<rtc::PeerConnection> const& pc,
-    uint8_t const payload_type, uint32_t const ssrc,
-    std::string const cname, std::string const msid,
-    std::function<void(void)> const on_open)
+                                                   uint8_t const payload_type, uint32_t const ssrc,
+                                                   std::string const cname, std::string const msid,
+                                                   std::function<void(void)> const on_open)
 {
     auto audio = rtc::Description::Audio(cname);
     audio.addOpusCodec(payload_type);
     audio.addSSRC(ssrc, cname, msid, cname);
     auto track = pc->addTrack(audio);
     // create RTP configuration
-    auto rtp_config =
-        std::make_shared<rtc::RtpPacketizationConfig>(ssrc, cname, payload_type, rtc::OpusRtpPacketizer::defaultClockRate);
+    auto rtp_config = std::make_shared<rtc::RtpPacketizationConfig>(ssrc, cname, payload_type,
+                                                                    rtc::OpusRtpPacketizer::defaultClockRate);
     // create packetizer
     auto packetizer = std::make_shared<rtc::OpusRtpPacketizer>(rtp_config);
     // create opus handler

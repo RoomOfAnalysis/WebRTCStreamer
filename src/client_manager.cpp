@@ -61,7 +61,7 @@ std::shared_ptr<Client> ClientManager::create_client(rtc::Configuration const& c
     data_channel->onOpen([id, wdc = std::weak_ptr(data_channel)] {
         if (auto dc = wdc.lock()) dc->send("Ping");
     });
-    data_channel->onMessage(nullptr, [id, wdc = std::weak_ptr(data_channel)] (std::string msg) {
+    data_channel->onMessage(nullptr, [id, wdc = std::weak_ptr(data_channel)](std::string msg) {
         std::cout << "message from " << id << " received: " << msg << std::endl;
         if (auto dc = wdc.lock()) dc->send("Ping");
     });
@@ -188,7 +188,7 @@ void ClientManager::add_to_stream(std::shared_ptr<Client> client, bool is_adding
     if (client->get_state() == Client::State::Waiting)
         client->set_state(is_adding_video ? Client::State::WaitingForAudio : Client::State::WaitingForVideo);
     else if ((client->get_state() == Client::State::WaitingForAudio && !is_adding_video) ||
-        (client->get_state() == Client::State::WaitingForVideo && is_adding_video))
+             (client->get_state() == Client::State::WaitingForVideo && is_adding_video))
     {
         assert(client->video.has_value() && client->audio.has_value());
 

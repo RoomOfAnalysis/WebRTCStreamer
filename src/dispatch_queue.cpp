@@ -2,8 +2,7 @@
 
 using namespace Streamer;
 
-DispatchQueue::DispatchQueue(std::string name, std::size_t thread_count)
-    : m_name{std::move(name)}
+DispatchQueue::DispatchQueue(std::string name, std::size_t thread_count): m_name{std::move(name)}
 {
     m_threads.reserve(thread_count);
     for (std::size_t i = 0; i < thread_count; i++)
